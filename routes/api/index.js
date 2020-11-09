@@ -6,8 +6,8 @@ const userRoutes = require("./users");
 
 // Item routes
 router.use("/auth", authRoutes);
-router.use("/user", userRoutes);
-router.use("/project", projectRoutes);
+router.use("/users", userRoutes);
+// router.use("/project", projectRoutes);
 
 //Exporting
 module.exports = router;

@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://graphqlUser:Test123@cluster0-uq6pl.mongodb.net/API_Planner?retryWrites=true&w=majority",
+  "jwtSecret": "F6TYXO6osux0tzRpC3NU"
+}

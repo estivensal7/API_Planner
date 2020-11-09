@@ -1,5 +1,6 @@
 const express = require("express");
-// const connectDB = require("./config/db");
+const connectDB = require("./config/db");
+const routes = require("./routes");
 // const path = require("path");
 const cors = require("cors");
 
@@ -8,14 +9,15 @@ const app = express();
 // Enabling CORS
 app.use(cors());
 
-// Connect Database
-// connectDB();
-
 // Init Middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Define Routes
-// app.use("/api/users", require("./routes/api/users"));
+// Initializing Routes
+app.use(routes);
+
+// Connect Database
+connectDB();
 
 // Serve static assets in production
 // if (process.env.NODE_ENV === "production") {
