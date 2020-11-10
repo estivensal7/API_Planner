@@ -20,13 +20,14 @@ const ProjectSchema = new mongoose.Schema({
       },
       properties: [
         {
-          name: {
+          propName: {
             type: String,
-            required: true,
+          },
+          propType: {
+            type: String,
           },
           requiredProp: {
             type: String,
-            required: true,
           },
         },
       ],
@@ -39,6 +40,9 @@ const ProjectSchema = new mongoose.Schema({
         required: true,
       },
       description: {
+        type: String,
+      },
+      operation: {
         type: String,
       },
       path: {
