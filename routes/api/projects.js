@@ -8,7 +8,6 @@ const Project = require("../../models/Project");
 // @route    GET api/projects/me
 // @desc     Get current user's projects
 // @access   Private
-// WORKS
 router.get("/me", auth, async (req, res) => {
   try {
     const projects = await Project.find({
@@ -29,7 +28,6 @@ router.get("/me", auth, async (req, res) => {
 // @route    POST api/projects
 // @desc     Create a project
 // @access   Private
-// WORKS
 router.post(
   "/",
   auth,
@@ -68,8 +66,7 @@ router.post(
 // @route    GET api/projects/:project_id
 // @desc     Get project by ID
 // @access   Private
-// WORKS
-router.get("/:project_id", async ({ params: { project_id } }, res) => {
+router.get("/:project_id", auth, async ({ params: { project_id } }, res) => {
   try {
     const project = await Project.findOne({
       _id: project_id,
@@ -87,7 +84,6 @@ router.get("/:project_id", async ({ params: { project_id } }, res) => {
 // @route    DELETE api/projects/:project_id
 // @desc     Delete project
 // @access   Private
-// WORKS
 router.delete("/:project_id", auth, async (req, res) => {
   try {
     // Remove project
@@ -197,7 +193,7 @@ router.post(
 );
 
 // @route    DELETE api/projects/routes/:project_id/:route_id
-// @desc     Delete package from project
+// @desc     Delete route from project
 // @access   Private
 router.delete("/routes/:project_id/:route_id", auth, async (req, res) => {
   try {
