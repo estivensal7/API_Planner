@@ -4,8 +4,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
+const auth = require("../../middleware/auth");
 
 const User = require("../../models/User");
+const Project = require("../../models/Project");
 
 // @route    POST api/users
 // @desc     Register user
@@ -70,5 +72,23 @@ router.post(
     }
   }
 );
+
+// @route    DELETE api/users
+// @desc     Delete user their projects
+// @access   Private
+router.delete("/", auth, async (req, res) => {
+  try {
+    // Remove user's projects
+    await Project.deleteMany({ user: req.user.id });
+
+    // Remove user
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    res.json({ msg: "User deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
