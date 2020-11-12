@@ -13,10 +13,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import PersonIcon from "@material-ui/icons/Person";
 
 const drawerWidth = 240;
 
@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: 36,
     color: "#18ffff",
+    "&:hover": {
+      color: "#fff",
+    },
   },
   hide: {
     display: "none",
@@ -150,14 +153,24 @@ export default function Navigation() {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text} style={{ color: "#18ffff" }}>
-              <ListItemIcon style={{ color: "#18ffff" }}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button key="Projects" className={classes.menuButton}>
+            <DashboardIcon className={classes.menuButton} />
+            <ListItemText primary="Projects" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key="SignOut" className={classes.menuButton}>
+            <ExitToAppIcon className={classes.menuButton} />
+            <ListItemText primary="Sign Out" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key="Account" className={classes.menuButton}>
+            <PersonIcon className={classes.menuButton} />
+            <ListItemText primary="Account" />
+          </ListItem>
         </List>
       </Drawer>
     </div>
