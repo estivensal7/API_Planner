@@ -3,8 +3,8 @@ import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Imoprting Components
-import Navbar from "./components/layouts/Navbar";
-import Landing from "./components/layouts/Landing";
+import Navbar from "./components/layout/Navbar.js";
+import Landing from "./components/layout/Landing";
 import Routes from "./components/routing/Routes";
 import { LOGOUT } from "./actions/types";
 

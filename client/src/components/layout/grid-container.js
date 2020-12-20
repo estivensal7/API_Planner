@@ -1,10 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
@@ -30,9 +25,8 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function ProjectList() {
+const GridContainer = () => {
 	const classes = useStyles();
-	const bull = <span className={classes.bullet}>•</span>;
 
 	return (
 		<Grid
@@ -41,7 +35,9 @@ export default function ProjectList() {
 			spacing={2}
 			direction="row"
 			alignItems="center">
-			<h1>Landing Page</h1>
+			{{ children }}
 		</Grid>
 	);
-}
+};
+
+export default GridContainer;

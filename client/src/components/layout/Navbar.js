@@ -1,4 +1,11 @@
-import React from "react";
+// React / Redux Imports
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../../actions/auth";
+
+// Material UI Imports
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -17,12 +24,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PersonIcon from "@material-ui/icons/Person";
+import Button from "@material-ui/core/Button";
 
+// Navbar - Material-UI Styles
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		display: "flex",
+		flexGrow: 1,
 	},
 	appBar: {
 		zIndex: theme.zIndex.drawer + 1,
@@ -88,12 +97,20 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 		padding: theme.spacing(3),
 	},
+	title: {
+		flexGrow: 1,
+	},
+	link: {
+		textDecoration: "none",
+		color: "inherit",
+	},
 }));
 
-export default function Navbar() {
+// Navbar Component
+const Navbar = ({ auth: { isAuthenticated }, logout }) => {
 	const classes = useStyles();
 	const theme = useTheme();
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -103,30 +120,23 @@ export default function Navbar() {
 		setOpen(false);
 	};
 
-	return (
-		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar
-				position="fixed"
-				className={clsx(classes.appBar, {
-					[classes.appBarShift]: open,
-				})}>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						className={clsx(classes.menuButton, {
-							[classes.hide]: open,
-						})}>
-						<MenuIcon />
-					</IconButton>
-					<Typography variant="h6" noWrap>
-						API Planner
-					</Typography>
-				</Toolbar>
-			</AppBar>
+	// This function will be called when isAuthenticated === false, thus only rendering the Sign-In & Register links
+	const renderGuestLinks = () => {
+		return (
+			<>
+				<Link to="/login" className={classes.link}>
+					<Button color="inherit">Login</Button>
+				</Link>
+				<Link to="/register" className={classes.link}>
+					<Button color="inherit">Register</Button>
+				</Link>
+			</>
+		);
+	};
+
+	// This function will be called as long as the isAuthenticated === true, thus rendering the Drawer links
+	const renderAuthLinks = () => {
+		return (
 			<Drawer
 				variant="permanent"
 				className={clsx(classes.drawer, {
@@ -179,6 +189,48 @@ export default function Navbar() {
 					</ListItem>
 				</List>
 			</Drawer>
+		);
+	};
+
+	return (
+		<div className={classes.root}>
+			<CssBaseline />
+			<AppBar
+				position="fixed"
+				className={clsx(classes.appBar, {
+					[classes.appBarShift]: open,
+				})}>
+				<Toolbar>
+					{!isAuthenticated ? (
+						<IconButton
+							color="inherit"
+							aria-label="open drawer"
+							onClick={handleDrawerOpen}
+							edge="start"
+							className={clsx(classes.menuButton, {
+								[classes.hide]: open,
+							})}>
+							<MenuIcon />
+						</IconButton>
+					) : null}
+					<Typography variant="h6" noWrap className={classes.title}>
+						API Planner
+					</Typography>
+					{!isAuthenticated ? renderGuestLinks() : null}
+				</Toolbar>
+			</AppBar>
+			{!isAuthenticated ? renderAuthLinks() : null}
 		</div>
 	);
-}
+};
+
+Navbar.propTypes = {
+	logout: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);
